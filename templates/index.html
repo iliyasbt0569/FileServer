@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загрузить файл</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInputs = document.querySelectorAll('.input-file input[type=file]');
+            fileInputs.forEach(function (input) {
+                input.addEventListener('change', function () {
+                    const file = this.files[0];
+                    if (file) {
+                        const inputFileContainer = this.closest('.input-file');
+                        const fileText = inputFileContainer.querySelector('.input-file-text');
+                        fileText.textContent = file.name;
+                        console.log(file.name);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Загрузить файл</h1>
+        <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+            <label class="input-file">
+                <span class="input-file-text" type="text"></span>
+                <input type="file" name="file" required>
+                <span class="input-file-btn">Выберите файл</span>
+            </label>
+            <button type="submit" class="upload-btn">Загрузить</button>
+        </form>
+        <a href="{{ url_for('uploads') }}" class="view-files-btn">Посмотреть загруженные файлы</a>
+    </div>
+</body>
+
+</html>
